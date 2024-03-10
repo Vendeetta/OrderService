@@ -1,0 +1,43 @@
+spring:
+  kafka:
+    bootstrap-servers: ${kafka-bootstrap-server}
+    topics:
+      - name: ${restaurantValidate}
+        types:
+          - ru.astondevs.orderservice.kafka.dto.RestaurantValidateDto
+        properties:
+          consumer:
+            max-poll-records: ${restaurant-topic-batch-size:1000}
+            bootstrap-servers: ${kafka-bootstrap-server}
+            group-id: orderGroupId
+            auto-offset-reset: earliest
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: ru.astondevs.orderservice.kafka.JsonDeserializer
+          producer:
+            bootstrap-servers: ${kafka-bootstrap-server}
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  datasource:
+    url: ${datasource_url}
+    username: ${datasource_username}
+    password: ${datasource_password}
+    hikari:
+      maximum-pool-size: ${max_pool_size:2}
+
+    # Настройки для миграции БД
+  liquibase:
+    default-schema: public
+    change-log: classpath:/changelog/changelog-cumulative.xml
+    user: ${datasource_username}
+    password: ${datasource_password}
+    enabled: ${liquibase_enable:false}
+
+# Настройки логирования
+logging:
+  level:
+    ROOT: ${log_root_level:DEBUG}
+ru:
+  astondevs:
+    app:
+      kafka:
+        topic: test
