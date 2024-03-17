@@ -12,13 +12,13 @@ import java.util.Collection;
 @Getter
 @Component
 @RequiredArgsConstructor
-public class RestaurantListener implements Listener<String> {
+public class RestaurantListener implements Listener<RestaurantValidateDto> {
 
     private final Class<RestaurantValidateDto> type = RestaurantValidateDto.class;
 
     @Override
     @SneakyThrows
-    public void receive(Collection<String> data) {
+    public void receive(Collection<RestaurantValidateDto> data) {
         data.forEach(d -> System.out.printf("RECEIVE MESSAGE %s", d));
     }
 }

@@ -1,22 +1,11 @@
 spring:
   kafka:
-    bootstrap-servers: ${kafka-bootstrap-server}
-    topics:
-      - name: ${restaurantValidate}
-        types:
-          - ru.astondevs.orderservice.kafka.dto.RestaurantValidateDto
-        properties:
-          consumer:
-            max-poll-records: ${restaurant-topic-batch-size:1000}
-            bootstrap-servers: ${kafka-bootstrap-server}
-            group-id: orderGroupId
-            auto-offset-reset: earliest
-            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-            value-deserializer: ru.astondevs.orderservice.kafka.JsonDeserializer
-          producer:
-            bootstrap-servers: ${kafka-bootstrap-server}
-            key-serializer: org.apache.kafka.common.serialization.StringSerializer
-            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: ru.astondevs.kafkastartermvn.deserializer.CustomDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: ru.astondevs.kafkastartermvn.deserializer.CustomDeserializer
   datasource:
     url: ${datasource_url}
     username: ${datasource_username}
@@ -41,3 +30,4 @@ ru:
     app:
       kafka:
         topic: test
+        type: ru.astondevs.orderservice.kafka.dto.RestaurantValidateDto
